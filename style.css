@@ -101,15 +101,54 @@ nav a:hover{opacity:.65}
   position:relative;height:100vh;min-height:640px;
   display:flex;align-items:center;justify-content:center;overflow:hidden
 }
-.hero-bg{position:absolute;inset:0;background:var(--bege)}
+.hero-bg{position:absolute;inset:0;background:#1a2e38}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
-.hero-overlay{position:absolute;inset:0;background:rgba(53,77,91,.15)}
+
+/* Overlay inteligente: gradiente escuro na parte de baixo onde fica o texto */
+/* Garante legibilidade em QUALQUER imagem — clara ou escura */
+.hero-overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.10) 0%,
+      rgba(0,0,0,0.15) 40%,
+      rgba(0,0,0,0.55) 70%,
+      rgba(0,0,0,0.70) 100%
+    );
+}
+
+/* Faixa escura centralizada atrás do texto */
 .hero-txt{
-  position:relative;z-index:2;text-align:center;padding:0 40px
+  position:relative;z-index:2;text-align:center;padding:0 40px;
+  /* Backdrop blur leve para separar visualmente o texto do fundo */
+}
+.hero-txt::before{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:110%;height:160%;
+  background:radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0.45) 0%,
+    rgba(0,0,0,0.20) 50%,
+    transparent 75%
+  );
+  z-index:-1;
+  pointer-events:none;
 }
 .hero-txt h1{
   font-family:var(--F);font-size:clamp(3rem,7vw,5.5rem);
-  font-weight:300;color:#fff;letter-spacing:1px;line-height:1.1
+  font-weight:300;color:#fff;letter-spacing:1px;line-height:1.1;
+  /* Sombra forte em múltiplas direções para funcionar em qualquer fundo */
+  text-shadow:
+    0 2px 4px rgba(0,0,0,0.9),
+    0 4px 16px rgba(0,0,0,0.8),
+    0 8px 40px rgba(0,0,0,0.6),
+    0 0 80px rgba(0,0,0,0.5);
+  /* Padding para que o backdrop radial cubra bem o texto */
+  padding:20px 30px;
 }
 
 /* ======= SEÇÕES ======= */
@@ -183,7 +222,7 @@ section{padding:90px 60px}
 }
 .hero-int::after{
   content:'';position:absolute;inset:0;
-  background:url('images/elcana_textura.png') center/cover;opacity:.12
+  background:url('images/elcana_textura.png') center/cover;opacity:.08
 }
 .hero-int-c{position:relative;z-index:1}
 .hero-int-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--dourado);display:block;margin-bottom:10px}
