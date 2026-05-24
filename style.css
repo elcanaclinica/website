@@ -1,0 +1,284 @@
+/* ===== CLÍNICA ELCANA — IDÊNTICO AO ORIGINAL ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --azul: #354d5b;
+  --azul2: #1a2e38;
+  --dourado: #c9a96e;
+  --bege: #f5f1ec;
+  --bege2: #ece7df;
+  --texto: #676767;
+  --titulo: #354d5b;
+  --F: 'Cormorant Garamond', serif;
+  --FB: 'Jost', sans-serif;
+  --T: all 0.35s ease;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--FB);color:var(--texto);background:#fff;overflow-x:hidden}
+
+/* ======= HEADER ======= */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  transition:var(--T);
+}
+.h-inner{
+  display:flex;flex-direction:column;align-items:center;
+  padding:30px 60px 0;transition:var(--T);
+}
+header.scrolled .h-inner{
+  flex-direction:row;justify-content:space-between;align-items:center;
+  padding:14px 60px;background:rgba(255,255,255,0.97);
+  box-shadow:0 2px 30px rgba(53,77,91,.1);
+}
+
+/* Logo */
+.logo{display:block;text-align:center;margin-bottom:20px;transition:var(--T);text-decoration:none}
+header.scrolled .logo{margin-bottom:0}
+.logo img{height:68px;width:auto;transition:var(--T)}
+header.scrolled .logo img{height:38px}
+.logo-sub{
+  font-family:var(--FB);font-size:.6rem;letter-spacing:4px;
+  text-transform:uppercase;color:var(--azul);display:block;
+  margin-top:5px;opacity:.6;transition:var(--T)
+}
+header.scrolled .logo-sub{display:none}
+
+/* Nav */
+nav{display:flex;align-items:center;transition:var(--T)}
+nav a{
+  font-family:var(--FB);font-size:.8rem;font-weight:400;
+  letter-spacing:1px;color:var(--azul);text-decoration:none;
+  padding:12px 20px;position:relative;transition:var(--T)
+}
+nav a::after{
+  content:'';position:absolute;bottom:6px;left:20px;
+  width:0;height:1px;background:var(--azul);transition:var(--T)
+}
+nav a:hover::after,nav a.ativo::after{width:calc(100% - 40px)}
+nav a:hover{opacity:.65}
+
+/* Dropdown */
+.dd{position:relative}
+.dd-menu{
+  display:none;position:absolute;top:100%;left:50%;
+  transform:translateX(-50%);background:#fff;min-width:230px;
+  box-shadow:0 12px 40px rgba(53,77,91,.15);padding:8px 0;
+  border-top:2px solid var(--dourado)
+}
+.dd:hover .dd-menu{display:block}
+.dd-menu a{
+  display:block;padding:9px 20px;color:var(--azul)!important;
+  font-size:.78rem;letter-spacing:.5px;white-space:nowrap
+}
+.dd-menu a::after{display:none!important}
+.dd-menu a:hover{background:var(--bege);opacity:1!important}
+.dd-div{
+  padding:7px 20px 2px;font-size:.6rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--dourado);pointer-events:none
+}
+
+/* Hamburger */
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.hbg span{display:block;width:24px;height:1.5px;background:var(--azul);transition:var(--T)}
+
+/* Mobile nav overlay */
+.mob-nav{
+  display:none;position:fixed;inset:0;background:#fff;z-index:2000;
+  flex-direction:column;align-items:center;justify-content:center;gap:28px
+}
+.mob-nav.on{display:flex}
+.mob-nav a{font-family:var(--F);font-size:2.2rem;color:var(--azul);text-decoration:none;letter-spacing:2px}
+.mob-nav a:hover{color:var(--dourado)}
+.mob-close{
+  position:absolute;top:25px;right:30px;font-size:1.8rem;
+  color:var(--azul);cursor:pointer;background:none;border:none
+}
+
+/* ======= HERO AQUARELA ======= */
+.hero{
+  position:relative;height:100vh;min-height:640px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+.hero-bg{position:absolute;inset:0;background:var(--bege)}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-overlay{position:absolute;inset:0;background:rgba(53,77,91,.15)}
+.hero-txt{
+  position:relative;z-index:2;text-align:center;padding:0 40px
+}
+.hero-txt h1{
+  font-family:var(--F);font-size:clamp(3rem,7vw,5.5rem);
+  font-weight:300;color:#fff;letter-spacing:1px;line-height:1.1
+}
+
+/* ======= SEÇÕES ======= */
+section{padding:90px 60px}
+.sec-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--dourado);display:block;margin-bottom:12px}
+.sec-h2{font-family:var(--F);font-size:clamp(2.2rem,3.5vw,3.2rem);font-weight:300;color:var(--titulo);line-height:1.2;margin-bottom:16px}
+.sec-p{font-size:.95rem;color:var(--texto);line-height:1.9;max-width:600px}
+.linha{width:50px;height:1px;background:var(--dourado);margin:20px 0}
+
+/* Grid 2 colunas */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.g2.inv>:first-child{order:2}
+.g2.inv>:last-child{order:1}
+.col-img{position:relative}
+.col-img img{width:100%;height:520px;object-fit:cover;display:block;position:relative;z-index:1}
+.col-img::before{
+  content:'';position:absolute;top:-18px;left:-18px;
+  width:100%;height:100%;border:1px solid rgba(201,169,110,.35);z-index:0
+}
+
+/* Parallax strip */
+.parallax{position:relative;min-height:480px;display:flex;align-items:center;overflow:hidden}
+.parallax-bg{position:absolute;inset:0;background-attachment:fixed;background-size:cover;background-position:center}
+.parallax-ov{position:absolute;inset:0;background:rgba(53,77,91,.6)}
+.parallax-c{position:relative;z-index:2;padding:80px 60px;max-width:700px;color:#fff}
+.parallax-c .sec-h2{color:#fff}
+.parallax-c .sec-p{color:rgba(255,255,255,.8);max-width:100%}
+
+/* Cards 3 colunas */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.card3{position:relative;overflow:hidden;height:420px;display:block;text-decoration:none;background:var(--azul)}
+.card3 img{width:100%;height:100%;object-fit:cover;opacity:.55;transition:transform .6s ease,opacity .4s ease}
+.card3:hover img{transform:scale(1.05);opacity:.4}
+.card3-info{position:absolute;bottom:30px;left:30px;right:30px;color:#fff}
+.card3-tag{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--dourado);margin-bottom:7px;display:block}
+.card3-h3{font-family:var(--F);font-size:1.9rem;font-weight:300;color:#fff;line-height:1.2}
+
+/* Tecnologia layout */
+.tec-bloco{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.tec-bloco.inv .tec-img{order:2}
+.tec-bloco.inv .tec-txt{order:1}
+.tec-img img{width:100%;height:540px;object-fit:cover;display:block}
+.tec-txt{padding:70px 60px;display:flex;flex-direction:column;justify-content:center;background:var(--bege)}
+.tec-bloco.inv .tec-txt{background:#fff}
+
+/* Tratamento layout */
+.trat-bloco{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--bege2)}
+.trat-bloco.inv .trat-img{order:2}
+.trat-bloco.inv .trat-txt{order:1}
+.trat-img img{width:100%;height:100%;min-height:420px;object-fit:cover;display:block}
+.trat-txt{padding:60px 50px;display:flex;flex-direction:column;justify-content:center}
+.trat-tag{font-family:var(--F);font-size:1.1rem;font-style:italic;color:var(--dourado);margin-bottom:14px}
+.ben-lista{list-style:none;margin:14px 0 26px}
+.ben-lista li{font-size:.88rem;color:var(--texto);padding:5px 0 5px 18px;position:relative;line-height:1.5}
+.ben-lista li::before{content:'—';position:absolute;left:0;color:var(--dourado);font-size:.8rem}
+
+/* Tabs */
+.tabs-nav{display:flex;border-bottom:1px solid var(--bege2)}
+.tab-btn{
+  padding:16px 35px;background:none;border:none;cursor:pointer;
+  font-family:var(--FB);font-size:.78rem;letter-spacing:2px;text-transform:uppercase;
+  color:#999;transition:var(--T);border-bottom:2px solid transparent;margin-bottom:-1px
+}
+.tab-btn.on,.tab-btn:hover{color:var(--azul);border-bottom-color:var(--azul)}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+
+/* Hero interno */
+.hero-int{
+  background:var(--azul);padding:140px 60px 70px;position:relative;overflow:hidden
+}
+.hero-int::after{
+  content:'';position:absolute;inset:0;
+  background:url('images/elcana_textura.png') center/cover;opacity:.12
+}
+.hero-int-c{position:relative;z-index:1}
+.hero-int-tag{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--dourado);display:block;margin-bottom:10px}
+.hero-int-h1{font-family:var(--F);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;color:#fff}
+
+/* CTA */
+.cta-sec{background:var(--azul);text-align:center;padding:100px 60px}
+.cta-sec .sec-h2{color:#fff}
+.cta-sec .sec-p{color:rgba(255,255,255,.65);margin:0 auto 40px}
+
+/* Botões */
+.btn{
+  display:inline-block;padding:14px 36px;border:1px solid var(--azul);
+  color:var(--azul);text-decoration:none;font-family:var(--FB);
+  font-size:.75rem;letter-spacing:2.5px;text-transform:uppercase;transition:var(--T)
+}
+.btn:hover{background:var(--azul);color:#fff}
+.btn.claro{border-color:rgba(255,255,255,.5);color:#fff}
+.btn.claro:hover{background:#fff;color:var(--azul)}
+.btnwa{
+  display:inline-flex;align-items:center;gap:10px;padding:14px 32px;
+  background:#25d366;color:#fff;text-decoration:none;font-family:var(--FB);
+  font-size:.78rem;letter-spacing:2px;text-transform:uppercase;transition:var(--T)
+}
+.btnwa:hover{background:#1fba5a;transform:translateY(-2px)}
+.btnwa svg{flex-shrink:0}
+
+/* Contato */
+.cnt-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.cnt-item{display:flex;gap:16px;margin-bottom:30px;align-items:flex-start}
+.cnt-ico{width:42px;height:42px;background:var(--bege);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cnt-ico svg{width:18px;height:18px;stroke:var(--dourado);fill:none;stroke-width:1.5}
+.cnt-lbl{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--dourado);margin-bottom:3px;display:block}
+.cnt-val{font-size:.95rem;color:var(--titulo);line-height:1.6}
+.cnt-val a{color:inherit;text-decoration:none}
+.cnt-val a:hover{color:var(--dourado)}
+.mapa{width:100%;height:400px;overflow:hidden}
+.mapa iframe{width:100%;height:100%;border:none;filter:grayscale(.2)}
+
+/* Footer */
+footer{background:var(--azul2);color:rgba(255,255,255,.55);padding:70px 60px 40px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:50px}
+.ft-logo{font-family:var(--F);font-size:2rem;color:#fff;margin-bottom:12px;font-weight:300}
+.ft-p{font-size:.88rem;line-height:1.8;margin-bottom:18px}
+.ft-tag{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--dourado);margin-bottom:18px;display:block}
+.ft-links{list-style:none}
+.ft-links li{margin-bottom:9px}
+.ft-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.9rem;transition:var(--T)}
+.ft-links a:hover{color:var(--dourado)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;display:flex;justify-content:space-between;font-size:.78rem}
+
+/* WhatsApp float */
+.wa-float{
+  position:fixed;bottom:30px;right:30px;width:58px;height:58px;
+  background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  z-index:999;box-shadow:0 5px 20px rgba(37,211,102,.45);transition:var(--T);text-decoration:none
+}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:26px;height:26px;fill:#fff}
+
+/* Animations */
+.fi{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.fi.on{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVO ===== */
+@media(max-width:900px){
+  .h-inner{flex-direction:row!important;justify-content:space-between;align-items:center;padding:14px 20px!important;background:rgba(255,255,255,.97)!important;box-shadow:0 2px 20px rgba(53,77,91,.1)!important}
+  nav{display:none}
+  .hbg{display:flex}
+  .logo{margin-bottom:0!important}
+  .logo img{height:34px!important}
+  .logo-sub{display:none!important}
+  section{padding:60px 20px}
+  .g2{grid-template-columns:1fr;gap:35px}
+  .g2.inv>:first-child{order:1!important}
+  .g2.inv>:last-child{order:2!important}
+  .col-img img{height:280px}
+  .cards3{grid-template-columns:1fr}
+  .card3{height:300px}
+  .tec-bloco{grid-template-columns:1fr}
+  .tec-bloco.inv .tec-img{order:1!important}
+  .tec-bloco.inv .tec-txt{order:2!important}
+  .tec-img img{height:260px}
+  .tec-txt{padding:40px 20px}
+  .trat-bloco{grid-template-columns:1fr}
+  .trat-bloco.inv .trat-img{order:1!important}
+  .trat-bloco.inv .trat-txt{order:2!important}
+  .trat-img img{min-height:250px!important}
+  .trat-txt{padding:40px 20px}
+  .cnt-grid{grid-template-columns:1fr;gap:40px}
+  .ft-grid{grid-template-columns:1fr;gap:25px}
+  .ft-bot{flex-direction:column;gap:8px;text-align:center}
+  .hero-int{padding:110px 20px 50px}
+  .parallax-c{padding:60px 20px}
+  .tabs-nav{overflow-x:auto}
+  .tab-btn{padding:14px 20px;white-space:nowrap}
+  .cta-sec{padding:70px 20px}
+}

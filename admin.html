@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área Administrativa — Clínica Elcana</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@300;400;500&display=swap');
+:root{--azul:#354d5b;--azul2:#1a2e38;--dourado:#c9a96e;--bege:#f5f1ec;--verde:#27ae60;--vermelho:#e74c3c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Jost',sans-serif;background:#f0eeec;color:#333}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--azul)}
+.lbox{background:#fff;padding:55px 45px;width:400px;text-align:center}
+.llogo{font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--azul);letter-spacing:3px;margin-bottom:4px}
+.llogo img{height:56px;width:auto}
+.lsub{font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--dourado);margin-bottom:38px;display:block}
+.lbox input{width:100%;padding:14px 16px;border:1px solid #ddd;font-family:'Jost',sans-serif;font-size:.9rem;margin-bottom:14px;outline:none;transition:.3s}
+.lbox input:focus{border-color:var(--dourado)}
+.lbtn{width:100%;padding:15px;background:var(--azul);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s}
+.lbtn:hover{background:var(--dourado)}
+.lerr{color:var(--vermelho);font-size:.85rem;margin-top:10px;display:none}
+#painel{display:none}
+.topbar{background:var(--azul);color:#fff;padding:0 30px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.tlogo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:2px;display:flex;align-items:center;gap:8px}
+.tlogo img{height:28px;filter:brightness(10)}
+.tacts{display:flex;gap:12px;align-items:center}
+.tbtn{padding:7px 18px;border:1px solid rgba(255,255,255,.3);color:#fff;background:none;font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:.3s}
+.tbtn:hover{background:rgba(255,255,255,.1)}
+.tbtn.gold{background:var(--dourado);border-color:var(--dourado)}
+.layout{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:230px;background:#fff;border-right:1px solid #e5e3e0;padding:20px 0;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sbsec{padding:8px 18px;font-size:.6rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--dourado);margin-top:12px}
+.sbitem{display:flex;align-items:center;gap:10px;padding:11px 18px;cursor:pointer;font-size:.88rem;color:#555;transition:.2s;border-left:3px solid transparent}
+.sbitem:hover{background:var(--bege);color:var(--azul)}
+.sbitem.on{background:var(--bege);color:var(--azul);border-left-color:var(--dourado);font-weight:500}
+.main{flex:1;padding:28px;overflow-y:auto}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--azul);margin-bottom:22px}
+.sdesc{font-size:.88rem;color:#777;margin-bottom:26px;line-height:1.7}
+.card{background:#fff;border:1px solid #e5e3e0;padding:24px;margin-bottom:18px}
+.ctitle{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--dourado);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #f0eeec;display:block}
+.ghst{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:.85rem}
+.ghdot{width:9px;height:9px;border-radius:50%;background:#bbb;flex-shrink:0}
+.ghdot.ok{background:var(--verde)}
+.ghdot.err{background:var(--vermelho)}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.icard{border:1px solid #e5e3e0;background:#faf9f7;overflow:hidden}
+.icard img{width:100%;height:130px;object-fit:cover;display:block;background:var(--bege)}
+.icbody{padding:10px}
+.ilabel{font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--dourado);margin-bottom:4px;display:block}
+.iname{font-size:.78rem;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
+.ibtn{width:100%;padding:8px;background:var(--azul);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.2s}
+.ibtn:hover{background:var(--dourado)}
+.fr{margin-bottom:18px}
+.fl{display:block;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:7px}
+.fi,.fta{width:100%;padding:12px 14px;border:1px solid #ddd;font-family:'Jost',sans-serif;font-size:.9rem;color:#333;outline:none;transition:.3s;background:#fff}
+.fta{min-height:90px;resize:vertical}
+.fi:focus,.fta:focus{border-color:var(--dourado)}
+.fhint{font-size:.73rem;color:#aaa;margin-top:5px;line-height:1.5}
+.abtn{padding:12px 28px;background:var(--azul);color:#fff;border:none;font-family:'Jost',sans-serif;font-size:.76rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s}
+.abtn:hover{background:var(--dourado)}
+.abtn.out{background:none;color:var(--azul);border:1px solid var(--azul);margin-left:10px}
+.abtn.out:hover{border-color:var(--vermelho);color:var(--vermelho)}
+.upzone{border:2px dashed #ddd;padding:28px;text-align:center;cursor:pointer;transition:.3s;background:#faf9f7}
+.upzone:hover,.upzone.drag{border-color:var(--dourado);background:var(--bege)}
+.upico{font-size:2rem;margin-bottom:8px}
+.uptxt{font-size:.85rem;color:#777}
+.uphint{font-size:.73rem;color:#aaa;margin-top:4px}
+.pvimg{width:100%;max-height:180px;object-fit:cover;display:none;margin-top:12px;border:2px solid var(--dourado)}
+.loading{display:none;text-align:center;padding:18px}
+.spin{width:28px;height:28px;border:3px solid #eee;border-top-color:var(--dourado);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scon{display:none}
+.scon.on{display:block}
+.stabs{display:flex;border-bottom:1px solid #e5e3e0;margin-bottom:22px}
+.stab{padding:10px 20px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Jost',sans-serif;font-size:.76rem;letter-spacing:1.5px;text-transform:uppercase;color:#aaa;cursor:pointer;transition:.3s}
+.stab.on,.stab:hover{color:var(--azul);border-bottom-color:var(--azul)}
+.spanel{display:none}
+.spanel.on{display:block}
+.notif{position:fixed;top:18px;right:18px;padding:14px 24px;background:var(--azul);color:#fff;font-size:.85rem;z-index:9999;display:none;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:320px}
+.notif.ok{background:var(--verde)}
+.notif.err{background:var(--vermelho)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:8000;align-items:center;justify-content:center}
+.modal.on{display:flex}
+.mbox{background:#fff;padding:36px;width:520px;max-width:90vw;max-height:90vh;overflow-y:auto}
+.mtitle{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--azul);margin-bottom:4px}
+.msub{font-size:.75rem;color:var(--dourado);letter-spacing:1px;margin-bottom:22px}
+  </style>
+</head>
+<body>
+
+<div id="login">
+  <div class="lbox">
+    <div class="llogo"><img src="images/Elcana_d9dae7.png" alt="Elcana" onerror="this.outerHTML='ELCANA'"></div>
+    <span class="lsub">Área Administrativa</span>
+    <input type="text" id="lu" placeholder="Usuário" autocomplete="username">
+    <input type="password" id="lp" placeholder="Senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+    <button class="lbtn" onclick="login()">Entrar</button>
+    <p class="lerr" id="lerr">Usuário ou senha incorretos.</p>
+  </div>
+</div>
+
+<div id="painel">
+  <div class="topbar">
+    <div class="tlogo"><img src="images/Elcana_d9dae7.png" alt="Elcana" onerror="this.style.display='none'"> Admin</div>
+    <div class="tacts">
+      <a href="index.html" target="_blank" class="tbtn gold">Ver Site</a>
+      <button class="tbtn" onclick="logout()">Sair</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sbsec">Conteúdo</div>
+      <div class="sbitem on" onclick="showSec('imagens',this)"><span>🖼️</span> Imagens</div>
+      <div class="sbitem" onclick="showSec('textos',this)"><span>✏️</span> Textos</div>
+      <div class="sbitem" onclick="showSec('tratamentos',this)"><span>💆</span> Tratamentos</div>
+      <div class="sbsec">Config</div>
+      <div class="sbitem" onclick="showSec('github',this)"><span>⚙️</span> GitHub</div>
+      <div class="sbitem" onclick="showSec('instrucoes',this)"><span>📖</span> Instruções</div>
+    </div>
+    <div class="main">
+
+      <div id="sec-imagens" class="scon on">
+        <h1 class="stitle">Gerenciar Imagens</h1>
+        <p class="sdesc">Clique em "Trocar" em qualquer imagem para substituí-la. A nova imagem será publicada automaticamente no GitHub e aparecerá no site em poucos minutos.</p>
+        <div class="stabs">
+          <button class="stab on" onclick="showSub('ig-home',this)">Home</button>
+          <button class="stab" onclick="showSub('ig-trat',this)">Tratamentos</button>
+          <button class="stab" onclick="showSub('ig-tec',this)">Tecnologias</button>
+          <button class="stab" onclick="showSub('ig-geral',this)">Logo &amp; Textura</button>
+        </div>
+        <div id="ig-home" class="spanel on"><div class="igrid" id="g-home"></div></div>
+        <div id="ig-trat" class="spanel"><div class="igrid" id="g-trat"></div></div>
+        <div id="ig-tec" class="spanel"><div class="igrid" id="g-tec"></div></div>
+        <div id="ig-geral" class="spanel"><div class="igrid" id="g-geral"></div></div>
+      </div>
+
+      <div id="sec-textos" class="scon">
+        <h1 class="stitle">Editar Textos</h1>
+        <div class="stabs">
+          <button class="stab on" onclick="showSub('tx-home',this)">Home</button>
+          <button class="stab" onclick="showSub('tx-contato',this)">Contato</button>
+        </div>
+        <div id="tx-home" class="spanel on">
+          <div class="card">
+            <span class="ctitle">Hero — Frase principal</span>
+            <div class="fr"><label class="fl">Frase do hero</label><input type="text" class="fi" id="t-hero" value="A arte de cuidar de você."></div>
+            <button class="abtn" onclick="notif('Texto salvo. Configure GitHub para publicar.','ok')">Salvar</button>
+          </div>
+          <div class="card">
+            <span class="ctitle">Seção Sobre</span>
+            <div class="fr"><label class="fl">Título</label><input type="text" class="fi" id="t-sh" value="Aqui, cada detalhe importa."></div>
+            <div class="fr"><label class="fl">Texto</label><textarea class="fta" id="t-sp">Do ambiente acolhedor ao atendimento atencioso, da escolha dos equipamentos mais modernos ao toque humano que respeita e valoriza sua individualidade.</textarea></div>
+            <button class="abtn" onclick="notif('Texto salvo. Configure GitHub para publicar.','ok')">Salvar</button>
+          </div>
+        </div>
+        <div id="tx-contato" class="spanel">
+          <div class="card">
+            <span class="ctitle">Dados de Contato</span>
+            <div class="fr"><label class="fl">Telefone</label><input type="text" class="fi" id="t-tel" value="(41) 3010-1398"></div>
+            <div class="fr"><label class="fl">WhatsApp (com DDI, ex: 5541999999999)</label><input type="text" class="fi" id="t-wa" value="5541999538779"></div>
+            <div class="fr"><label class="fl">E-mail</label><input type="text" class="fi" id="t-em" value="contato@clinicaelcana.com.br"></div>
+            <div class="fr"><label class="fl">Endereço</label><input type="text" class="fi" id="t-end" value="Av. Nossa Senhora de Lourdes, 630 – Curitiba, PR"></div>
+            <div class="fr"><label class="fl">Instagram (sem @)</label><input type="text" class="fi" id="t-ig" value="clinicaelcana"></div>
+            <button class="abtn" onclick="notif('Texto salvo. Configure GitHub para publicar.','ok')">Salvar</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="sec-tratamentos" class="scon">
+        <h1 class="stitle">Editar Tratamentos</h1>
+        <p class="sdesc">Edite os títulos e chamadas de cada tratamento.</p>
+        <div id="trat-lista"></div>
+      </div>
+
+      <div id="sec-github" class="scon">
+        <h1 class="stitle">Configuração GitHub</h1>
+        <div class="card">
+          <span class="ctitle">Conexão com o repositório</span>
+          <div class="ghst"><div class="ghdot" id="ghdot"></div><span id="ghtxt">Não configurado</span></div>
+          <div class="fr">
+            <label class="fl">Token de acesso (Personal Access Token)</label>
+            <input type="password" class="fi" id="gh-t" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            <p class="fhint">GitHub.com → sua foto → Settings → Developer settings → Personal access tokens → Fine-grained → Generate new token → selecione o repositório → Contents → Read and write</p>
+          </div>
+          <div class="fr"><label class="fl">Usuário GitHub</label><input type="text" class="fi" id="gh-u" placeholder="seu-usuario"></div>
+          <div class="fr"><label class="fl">Repositório</label><input type="text" class="fi" id="gh-r" placeholder="clinica-elcana"></div>
+          <div class="fr"><label class="fl">Branch</label><input type="text" class="fi" id="gh-b" value="main"></div>
+          <button class="abtn" onclick="salvarGH()">Salvar e Testar Conexão</button>
+          <div class="loading" id="gh-load"><div class="spin"></div><p style="font-size:.82rem;color:#888">Testando...</p></div>
+        </div>
+        <div class="card">
+          <span class="ctitle">Como publicar imagens</span>
+          <p style="font-size:.88rem;color:#666;line-height:1.9">1. Configure o token acima (feito uma vez só)<br>2. Vá em <strong>Imagens</strong> no menu<br>3. Clique em <strong>"Trocar"</strong> na foto desejada<br>4. Selecione a nova foto do computador<br>5. Clique em <strong>"Confirmar e Publicar"</strong><br>6. Aguarde 1–2 minutos e atualize o site</p>
+        </div>
+      </div>
+
+      <div id="sec-instrucoes" class="scon">
+        <h1 class="stitle">Instruções de Uso</h1>
+        <div class="card">
+          <span class="ctitle">Trocar uma foto</span>
+          <p style="font-size:.88rem;color:#666;line-height:1.9"><strong>1.</strong> Vá em <strong>Imagens</strong> no menu esquerdo<br><strong>2.</strong> Escolha a aba da página (Home, Tratamentos, etc.)<br><strong>3.</strong> Clique em <strong>"Trocar"</strong> na foto desejada<br><strong>4.</strong> Selecione a nova foto (JPG ou PNG)<br><strong>5.</strong> Clique em <strong>"Confirmar e Publicar"</strong><br><strong>6.</strong> Aguarde 1–2 minutos e atualize o site</p>
+        </div>
+        <div class="card">
+          <span class="ctitle">Tamanhos recomendados</span>
+          <p style="font-size:.88rem;color:#666;line-height:1.9"><strong>Hero/fundo:</strong> 1920×1280px ou maior, paisagem<br><strong>Tratamentos:</strong> 800×600px, retrato ou quadrado<br><strong>Formato:</strong> JPG (mais leve) ou PNG<br><strong>Máximo:</strong> 5MB por imagem</p>
+        </div>
+        <div class="card">
+          <span class="ctitle">Acesso ao painel</span>
+          <p style="font-size:.88rem;color:#666;line-height:1.9">Usuário: <strong>admin</strong><br>Senha: <strong>elcana2025</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="mbox">
+    <h3 class="mtitle">Trocar Imagem</h3>
+    <p class="msub" id="msub"></p>
+    <div class="upzone" id="upzone" onclick="document.getElementById('finput').click()">
+      <div class="upico">📷</div>
+      <p class="uptxt">Clique para selecionar ou arraste a imagem aqui</p>
+      <p class="uphint">JPG, PNG ou WEBP — máximo 5MB</p>
+    </div>
+    <input type="file" id="finput" accept="image/*" style="display:none" onchange="previewFile(this)">
+    <img id="pvimg" class="pvimg" alt="Preview">
+    <div style="margin-top:22px;display:flex;gap:10px;align-items:center">
+      <button class="abtn" onclick="publicar()">Confirmar e Publicar</button>
+      <button class="abtn out" onclick="closeModal()">Cancelar</button>
+    </div>
+    <div class="loading" id="mload"><div class="spin"></div><p style="font-size:.82rem;color:#888">Publicando no GitHub...</p></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const CREDS={u:'admin',p:'elcana2025'};
+const IMGS={
+  home:[
+    {label:'Fundo Hero (aquarela)',file:'elcana_textura.png'},
+    {label:'Fundo Seção Parallax',file:'elcana_textura2.png'},
+    {label:'Foto — Seção Sobre',file:'foto2.png'},
+    {label:'Card Tratamentos Faciais',file:'PELE.png'},
+    {label:'Card Tratamentos Corporais',file:'GLUTEO.png'},
+    {label:'Card Tecnologias',file:'Equipamentos.png'},
+  ],
+  trat:[
+    {label:'Harmonização Facial',file:'PELE.png'},
+    {label:'Botox',file:'BOTOX2.png'},
+    {label:'Bioestimuladores de Colágeno',file:'botox.png'},
+    {label:'Ácido Hialurônico',file:'Pele_Madura1.jpg'},
+    {label:'Lavieen',file:'LAVIEEN2.png'},
+    {label:'Ultraformer MPT (Face)',file:'ULTRA1.png'},
+    {label:'Harmonização Glútea',file:'GLUTEO.png'},
+    {label:'Ultraformer MPT (Corpo)',file:'ULTRA2.png'},
+    {label:'Bioestimuladores (Corpo)',file:'PERNAS.png'},
+    {label:'Emptiers',file:'barriga2.png'},
+  ],
+  tec:[
+    {label:'Ultraformer MPT',file:'Ultraformer.png'},
+    {label:'Lavieen',file:'LAVIEEN2.png'},
+    {label:'Equipamentos Geral',file:'Equipamentos.png'},
+  ],
+  geral:[
+    {label:'Logo principal',file:'Elcana_d9dae7.png'},
+    {label:'Logo versão clara',file:'Elcana_354d5b.png'},
+    {label:'Favicon',file:'Favi_Elcana.png'},
+  ]
+};
+const TRATS=[
+  {id:'harmonizacao',n:'Harmonização Facial',s:'Realce sutil da sua beleza.'},
+  {id:'botox',n:'Botox',s:'Beleza leve e natural.'},
+  {id:'bioestimuladores',n:'Bioestimuladores de Colágeno',s:'Revitalize a estrutura da sua pele.'},
+  {id:'acido',n:'Ácido Hialurônico',s:'Preencha, hidrate e ilumine.'},
+  {id:'lavieen',n:'Lavieen',s:'Renove sua pele, revele sua luz.'},
+  {id:'ultraformer',n:'Ultraformer MPT',s:'Lifting não cirúrgico.'},
+  {id:'glutea',n:'Harmonização Glútea',s:'Contornos mais definidos.'},
+  {id:'ultraformer-corpo',n:'Ultraformer MPT (Corpo)',s:'Firmeza e definição em cada curva.'},
+  {id:'bio-corpo',n:'Bioestimuladores (Corpo)',s:'Pele mais firme e revitalizada.'},
+  {id:'emptiers',n:'Emptiers',s:'Contornos mais definidos, autoestima renovada.'},
+];
+
+function login(){
+  if(document.getElementById('lu').value===CREDS.u&&document.getElementById('lp').value===CREDS.p){
+    document.getElementById('login').style.display='none';
+    document.getElementById('painel').style.display='block';
+    init();
+  } else document.getElementById('lerr').style.display='block';
+}
+function logout(){
+  document.getElementById('login').style.display='flex';
+  document.getElementById('painel').style.display='none';
+  document.getElementById('lu').value='';
+  document.getElementById('lp').value='';
+}
+
+function init(){
+  renderGrid('g-home',IMGS.home);renderGrid('g-trat',IMGS.trat);
+  renderGrid('g-tec',IMGS.tec);renderGrid('g-geral',IMGS.geral);
+  renderTrats();loadGH();
+}
+
+function renderGrid(id,list){
+  document.getElementById(id).innerHTML=list.map(i=>`
+    <div class="icard">
+      <img src="images/${i.file}" alt="${i.label}" loading="lazy" onerror="this.style.background='var(--bege)';this.style.height='130px';this.style.display='block'">
+      <div class="icbody">
+        <span class="ilabel">${i.label}</span>
+        <p class="iname">${i.file}</p>
+        <button class="ibtn" onclick="openModal('${i.file}','${i.label}')">Trocar Imagem</button>
+      </div>
+    </div>`).join('');
+}
+
+let imgAtual=null,fileNovo=null;
+function openModal(file,label){
+  imgAtual=file;fileNovo=null;
+  document.getElementById('msub').textContent=label;
+  document.getElementById('pvimg').style.display='none';
+  document.getElementById('finput').value='';
+  document.getElementById('mload').style.display='none';
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+
+function previewFile(inp){
+  if(!inp.files[0])return;
+  if(inp.files[0].size>5*1024*1024){notif('Arquivo muito grande! Max 5MB','err');return;}
+  fileNovo=inp.files[0];
+  const rd=new FileReader();
+  rd.onload=e=>{const pv=document.getElementById('pvimg');pv.src=e.target.result;pv.style.display='block';};
+  rd.readAsDataURL(fileNovo);
+}
+
+const uz=document.getElementById('upzone');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag');});
+uz.addEventListener('dragleave',()=>uz.classList.remove('drag'));
+uz.addEventListener('drop',e=>{
+  e.preventDefault();uz.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('image/')){
+    fileNovo=f;const rd=new FileReader();
+    rd.onload=ev=>{const pv=document.getElementById('pvimg');pv.src=ev.target.result;pv.style.display='block';};
+    rd.readAsDataURL(f);
+  }
+});
+
+async function publicar(){
+  if(!fileNovo){notif('Selecione uma imagem!','err');return;}
+  const cfg=getGH();
+  if(!cfg.t){notif('Configure o GitHub primeiro!','err');showSec('github',document.querySelectorAll('.sbitem')[3]);closeModal();return;}
+  document.getElementById('mload').style.display='block';
+  try{
+    const b64=await toB64(fileNovo);
+    const path=`images/${imgAtual}`;
+    let sha=null;
+    try{
+      const r=await fetch(`https://api.github.com/repos/${cfg.u}/${cfg.r}/contents/${path}`,
+        {headers:{Authorization:`token ${cfg.t}`,Accept:'application/vnd.github.v3+json'}});
+      if(r.ok){const d=await r.json();sha=d.sha;}
+    }catch(e){}
+    const body={message:`Admin: atualiza ${imgAtual}`,content:b64,branch:cfg.b};
+    if(sha)body.sha=sha;
+    const res=await fetch(`https://api.github.com/repos/${cfg.u}/${cfg.r}/contents/${path}`,{
+      method:'PUT',
+      headers:{Authorization:`token ${cfg.t}`,'Content-Type':'application/json',Accept:'application/vnd.github.v3+json'},
+      body:JSON.stringify(body)
+    });
+    if(res.ok){
+      notif('✓ Imagem publicada! O site atualiza em 1–2 min.','ok');closeModal();
+      renderGrid('g-home',IMGS.home);renderGrid('g-trat',IMGS.trat);
+      renderGrid('g-tec',IMGS.tec);renderGrid('g-geral',IMGS.geral);
+    }else{
+      const err=await res.json();notif('Erro: '+(err.message||'Verifique o token'),'err');
+    }
+  }catch(e){notif('Erro: '+e.message,'err');}
+  document.getElementById('mload').style.display='none';
+}
+
+function toB64(file){return new Promise((res,rej)=>{const rd=new FileReader();rd.onload=()=>res(rd.result.split(',')[1]);rd.onerror=rej;rd.readAsDataURL(file);});}
+
+function salvarGH(){
+  const t=document.getElementById('gh-t').value.trim();
+  const u=document.getElementById('gh-u').value.trim();
+  const r=document.getElementById('gh-r').value.trim();
+  const b=document.getElementById('gh-b').value.trim()||'main';
+  if(!t||!u||!r){notif('Preencha todos os campos!','err');return;}
+  localStorage.setItem('ght',t);localStorage.setItem('ghu',u);localStorage.setItem('ghr',r);localStorage.setItem('ghb',b);
+  document.getElementById('gh-load').style.display='block';
+  fetch(`https://api.github.com/repos/${u}/${r}`,{headers:{Authorization:`token ${t}`,Accept:'application/vnd.github.v3+json'}})
+    .then(res=>{
+      document.getElementById('gh-load').style.display='none';
+      if(res.ok){
+        document.getElementById('ghdot').className='ghdot ok';
+        document.getElementById('ghtxt').textContent=`Conectado: ${u}/${r}`;
+        notif('✓ GitHub configurado!','ok');
+      }else{
+        document.getElementById('ghdot').className='ghdot err';
+        document.getElementById('ghtxt').textContent='Erro: token inválido';
+        notif('Token ou repositório inválido!','err');
+      }
+    }).catch(()=>{document.getElementById('gh-load').style.display='none';notif('Erro de conexão','err');});
+}
+function loadGH(){
+  const t=localStorage.getItem('ght'),u=localStorage.getItem('ghu'),r=localStorage.getItem('ghr'),b=localStorage.getItem('ghb');
+  if(t)document.getElementById('gh-t').value=t;
+  if(u)document.getElementById('gh-u').value=u;
+  if(r)document.getElementById('gh-r').value=r;
+  if(b)document.getElementById('gh-b').value=b;
+  if(t&&u&&r){document.getElementById('ghdot').className='ghdot ok';document.getElementById('ghtxt').textContent=`Configurado: ${u}/${r}`;}
+}
+function getGH(){return{t:localStorage.getItem('ght'),u:localStorage.getItem('ghu'),r:localStorage.getItem('ghr'),b:localStorage.getItem('ghb')||'main'};}
+
+function renderTrats(){
+  document.getElementById('trat-lista').innerHTML=TRATS.map(t=>`
+    <div class="card" style="margin-bottom:14px">
+      <span class="ctitle">${t.n}</span>
+      <div class="fr"><label class="fl">Nome</label><input type="text" class="fi" value="${t.n}" id="tn-${t.id}"></div>
+      <div class="fr"><label class="fl">Subtítulo</label><input type="text" class="fi" value="${t.s}" id="ts-${t.id}"></div>
+      <button class="abtn" onclick="notif('Salvo. Configure GitHub para publicar.','ok')">Salvar</button>
+    </div>`).join('');
+}
+
+function showSec(id,el){
+  document.querySelectorAll('.scon').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  document.querySelectorAll('.sbitem').forEach(i=>i.classList.remove('on'));
+  if(el)el.classList.add('on');
+}
+function showSub(pid,btn){
+  const wrap=btn.parentElement;
+  wrap.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  let el=wrap.nextElementSibling;
+  while(el){if(el.classList&&el.classList.contains('spanel'))el.classList.remove('on');el=el.nextElementSibling;}
+  const tgt=document.getElementById(pid);if(tgt)tgt.classList.add('on');
+}
+
+let ntimer;
+function notif(msg,type=''){
+  clearTimeout(ntimer);
+  const n=document.getElementById('notif');
+  n.textContent=msg;n.className='notif '+(type||'');n.style.display='block';
+  ntimer=setTimeout(()=>n.style.display='none',4500);
+}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+</script>
+</body>
+</html>
